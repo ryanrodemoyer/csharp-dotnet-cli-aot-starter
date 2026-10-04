@@ -1,6 +1,6 @@
 .PHONY: all build test aot run schema schema-openai clean install help
 
-SLN = NativeAotCliTemplate.slnx
+SLN = starter.slnx
 PROJECT = src/cli/cli.csproj
 APP = cli
 

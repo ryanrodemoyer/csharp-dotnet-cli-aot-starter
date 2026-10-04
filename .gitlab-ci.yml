@@ -25,7 +25,7 @@ cache:
 test:
   stage: test
   script:
-    - dotnet test NativeAotCliTemplate.slnx -c Release --logger "junit;LogFilePath=test-results.xml"
+    - dotnet test starter.slnx -c Release --logger "junit;LogFilePath=test-results.xml"
   artifacts:
     when: always
     reports:

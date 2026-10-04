@@ -37,7 +37,7 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 ├── global.json                  # Pinned .NET 10 SDK with feature rollForward
 ├── Directory.Build.props        # Solution-wide build, AOT flags, and compiler warnings
 ├── Directory.Packages.props     # Central Package Management (CPM)
-├── NativeAotCliTemplate.slnx    # Modern XML solution file
+├── starter.slnx                 # Modern XML solution file
 ├── Makefile                     # Developer convenience shortcuts
 ├── AGENTS.md                    # Instructions for AI coding agents & LLMs
 ├── .gitlab-ci.yml               # GitLab CI matrix AOT build & release pipeline
@@ -106,7 +106,7 @@ dotnet run --project src/cli -- info
 ### 2. Run Tests
 
 ```bash
-dotnet test NativeAotCliTemplate.slnx
+dotnet test starter.slnx
 ```
 
 ### 3. Compile Native AOT Standalone Binary
@@ -249,7 +249,7 @@ If validation fails:
 
 4. **Add tests** in `tests/unit/` and verify:
    ```bash
-   dotnet test NativeAotCliTemplate.slnx
+   dotnet test starter.slnx
    ```
 
 ---

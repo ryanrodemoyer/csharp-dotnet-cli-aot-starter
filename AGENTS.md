@@ -149,7 +149,7 @@ On error:
 
 ## 5. Build, Test, and Verification Commands
 
-- **Build**: `dotnet build NativeAotCliTemplate.slnx -c Debug`
-- **Test**: `dotnet test NativeAotCliTemplate.slnx -c Debug`
+- **Build**: `dotnet build starter.slnx -c Debug`
+- **Test**: `dotnet test starter.slnx -c Debug`
 - **Native AOT Publish**: `dotnet publish src/cli/cli.csproj -c Release -r <RID>`
 - **Export Schema**: `dotnet run --project src/cli -- schema --format openai`
