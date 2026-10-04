@@ -1,0 +1,39 @@
+<Project>
+  <PropertyGroup>
+    <!-- Target Framework & Language -->
+    <TargetFramework>net10.0</TargetFramework>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+
+    <!-- Compilation Strictness -->
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-recommended</AnalysisLevel>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Package & Assembly Info -->
+    <Authors>Native AOT Template Contributors</Authors>
+    <Company>Template</Company>
+    <Product>NativeAotCli</Product>
+    <Version>0.1.0</Version>
+    <RepositoryType>git</RepositoryType>
+  </PropertyGroup>
+
+  <!-- Native AOT and Trimming settings for non-test projects -->
+  <PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
+    <PublishAot>true</PublishAot>
+    <IsAotCompatible>true</IsAotCompatible>
+    <EnableAotAnalyzer>true</EnableAotAnalyzer>
+    <EnableTrimAnalyzer>true</EnableTrimAnalyzer>
+    <EnableSingleFileAnalyzer>true</EnableSingleFileAnalyzer>
+    
+    <!-- Binary Size and Performance Optimization -->
+    <OptimizationPreference>Speed</OptimizationPreference>
+    <StackTraceSupport>true</StackTraceSupport>
+    <InvariantGlobalization>false</InvariantGlobalization>
+    <IlcGenerateCompleteTypeMetadata>false</IlcGenerateCompleteTypeMetadata>
+    <StripSymbols>true</StripSymbols>
+  </PropertyGroup>
+</Project>

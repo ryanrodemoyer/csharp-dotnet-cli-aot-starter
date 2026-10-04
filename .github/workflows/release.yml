@@ -1,0 +1,97 @@
+name: Release Native Binaries
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+permissions:
+  contents: write
+
+jobs:
+  build-aot:
+    name: Build AOT (${{ matrix.target.rid }})
+    runs-on: ${{ matrix.target.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        target:
+          - rid: linux-x64
+            os: ubuntu-latest
+            archive: tar.gz
+          - rid: osx-arm64
+            os: macos-latest
+            archive: tar.gz
+          - rid: osx-x64
+            os: macos-13
+            archive: tar.gz
+          - rid: win-x64
+            os: windows-latest
+            archive: zip
+          - rid: win-arm64
+            os: windows-latest
+            archive: zip
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Setup .NET 10
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '10.0.x'
+
+      - name: Install Linux build dependencies
+        if: matrix.target.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends clang zlib1g-dev
+
+      - name: Publish Native AOT binary
+        run: |
+          dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r ${{ matrix.target.rid }} -o ./publish
+
+      - name: Package Unix Binary (.tar.gz)
+        if: matrix.target.archive == 'tar.gz'
+        run: |
+          cd ./publish
+          tar -czf ../aotcli-${{ matrix.target.rid }}.tar.gz aotcli
+          cd ..
+          shasum -a 256 aotcli-${{ matrix.target.rid }}.tar.gz > aotcli-${{ matrix.target.rid }}.tar.gz.sha256
+
+      - name: Package Windows Binary (.zip)
+        if: matrix.target.archive == 'zip'
+        shell: pwsh
+        run: |
+          Compress-Archive -Path ./publish/aotcli.exe -DestinationPath aotcli-${{ matrix.target.rid }}.zip
+          $hash = (Get-FileHash aotcli-${{ matrix.target.rid }}.zip -Algorithm SHA256).Hash.ToLower()
+          "$hash  aotcli-${{ matrix.target.rid }}.zip" | Out-File -FilePath aotcli-${{ matrix.target.rid }}.zip.sha256 -Encoding ascii
+
+      - name: Upload Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: aotcli-${{ matrix.target.rid }}
+          path: |
+            aotcli-${{ matrix.target.rid }}.*
+
+  publish-release:
+    name: Create GitHub Release
+    needs: [build-aot]
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Download all artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: ./artifacts
+          merge-multiple: true
+
+      - name: Create Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: ./artifacts/*
+          generate_release_notes: true
+          draft: false
+          prerelease: false

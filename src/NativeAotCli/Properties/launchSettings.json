@@ -1,0 +1,20 @@
+{
+  "profiles": {
+    "Greet": {
+      "commandName": "Project",
+      "commandLineArgs": "greet --name Developer --count 2"
+    },
+    "Greet (JSON)": {
+      "commandName": "Project",
+      "commandLineArgs": "greet --name Developer --json"
+    },
+    "Info": {
+      "commandName": "Project",
+      "commandLineArgs": "info"
+    },
+    "Schema (OpenAI)": {
+      "commandName": "Project",
+      "commandLineArgs": "schema --format openai"
+    }
+  }
+}

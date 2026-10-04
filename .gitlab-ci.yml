@@ -1,0 +1,105 @@
+# GitLab CI/CD Pipeline - Matrix Cross-Platform Native AOT
+stages:
+  - test
+  - build-matrix
+  - release
+
+default:
+  image: mcr.microsoft.com/dotnet/sdk:10.0
+  before_script:
+    - dotnet --info
+
+variables:
+  DOTNET_CLI_TELEMETRY_OPTOUT: "1"
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: "1"
+  NUGET_PACKAGES: "$CI_PROJECT_DIR/.nuget-cache"
+
+cache:
+  key: "${CI_COMMIT_REF_SLUG}-nuget"
+  paths:
+    - .nuget-cache/
+
+# ==========================================
+# Stage 1: Automated Unit & Integration Tests
+# ==========================================
+test:
+  stage: test
+  script:
+    - dotnet test NativeAotCliTemplate.sln -c Release --logger "junit;LogFilePath=test-results.xml"
+  artifacts:
+    when: always
+    reports:
+      junit: test-results.xml
+
+# ==========================================
+# Stage 2: Matrix Native AOT Compilation
+# ==========================================
+build:linux-x64:
+  stage: build-matrix
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends clang zlib1g-dev tar
+    - dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r linux-x64 -o publish/linux-x64
+    - cd publish/linux-x64
+    - tar -czf ../../aotcli-linux-x64.tar.gz aotcli
+    - cd ../..
+    - sha256sum aotcli-linux-x64.tar.gz > aotcli-linux-x64.tar.gz.sha256
+  artifacts:
+    paths:
+      - aotcli-linux-x64.tar.gz
+      - aotcli-linux-x64.tar.gz.sha256
+    expire_in: 30 days
+
+build:linux-musl-x64:
+  stage: build-matrix
+  image: mcr.microsoft.com/dotnet/sdk:10.0-alpine
+  script:
+    - apk add --no-cache clang build-base zlib-dev tar
+    - dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r linux-musl-x64 -o publish/linux-musl-x64
+    - cd publish/linux-musl-x64
+    - tar -czf ../../aotcli-linux-musl-x64.tar.gz aotcli
+    - cd ../..
+    - sha256sum aotcli-linux-musl-x64.tar.gz > aotcli-linux-musl-x64.tar.gz.sha256
+  artifacts:
+    paths:
+      - aotcli-linux-musl-x64.tar.gz
+      - aotcli-linux-musl-x64.tar.gz.sha256
+    expire_in: 30 days
+
+build:linux-arm64:
+  stage: build-matrix
+  script:
+    - apt-get update && apt-get install -y --no-install-recommends clang zlib1g-dev binutils-aarch64-linux-gnu gcc-aarch64-linux-gnu tar
+    - dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r linux-arm64 -o publish/linux-arm64
+    - cd publish/linux-arm64
+    - tar -czf ../../aotcli-linux-arm64.tar.gz aotcli
+    - cd ../..
+    - sha256sum aotcli-linux-arm64.tar.gz > aotcli-linux-arm64.tar.gz.sha256
+  artifacts:
+    paths:
+      - aotcli-linux-arm64.tar.gz
+      - aotcli-linux-arm64.tar.gz.sha256
+    expire_in: 30 days
+
+# ==========================================
+# Stage 3: GitLab Release Creation
+# ==========================================
+release:
+  stage: release
+  image: registry.gitlab.com/gitlab-org/release-cli:latest
+  rules:
+    - if: $CI_COMMIT_TAG
+  script:
+    - echo "Publishing GitLab release for $CI_COMMIT_TAG"
+  release:
+    name: "Release $CI_COMMIT_TAG"
+    description: "Automated Native AOT release for $CI_COMMIT_TAG"
+    tag_name: "$CI_COMMIT_TAG"
+    ref: "$CI_COMMIT_TAG"
+    assets:
+      links:
+        - name: "aotcli-linux-x64.tar.gz"
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/aotcli/${CI_COMMIT_TAG}/aotcli-linux-x64.tar.gz"
+        - name: "aotcli-linux-musl-x64.tar.gz"
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/aotcli/${CI_COMMIT_TAG}/aotcli-linux-musl-x64.tar.gz"
+        - name: "aotcli-linux-arm64.tar.gz"
+          url: "${CI_API_V4_URL}/projects/${CI_PROJECT_ID}/packages/generic/aotcli/${CI_COMMIT_TAG}/aotcli-linux-arm64.tar.gz"

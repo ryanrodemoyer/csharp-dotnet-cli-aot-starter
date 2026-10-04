@@ -1,0 +1,38 @@
+## .NET Core / C#
+bin/
+obj/
+publish/
+artifacts/
+
+# Visual Studio / Rider / VSCode
+.vs/
+.idea/
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+*.user
+*.suo
+*.userosscache
+*.sln.docstates
+
+# Build & Native AOT artifacts
+*.dSYM/
+*.pdb
+*.ilk
+*.exp
+*.map
+crash_dump*
+
+# OS Files
+.DS_Store
+Thumbs.db
+ehthumbs.db
+
+# Dotnet user secrets / local config
+*.local.json
+appsettings.*.local.json
+
+# Scratch / temporary
+scratch/
+tmp/

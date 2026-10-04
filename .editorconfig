@@ -1,0 +1,44 @@
+root = true
+
+[*]
+charset = utf-8
+end_of_line = lf
+indent_style = space
+insert_final_newline = true
+trim_trailing_whitespace = true
+
+[*.cs]
+indent_size = 4
+csharp_using_directive_placement = outside_namespace:error
+csharp_prefer_simple_using_statement = true:suggestion
+csharp_style_namespace_declarations = file_scoped:error
+csharp_style_var_when_type_is_apparent = true:suggestion
+csharp_style_expression_bodied_methods = when_on_single_line:suggestion
+csharp_style_expression_bodied_properties = true:suggestion
+
+# Code quality rules
+dotnet_diagnostic.CA1822.severity = suggestion # Mark members as static
+dotnet_diagnostic.CA2007.severity = none       # Do not use ConfigureAwait on Console apps
+
+# Native AOT & Trimming rules (escalate to error)
+dotnet_diagnostic.IL2026.severity = error # RequiresUnreferencedCode
+dotnet_diagnostic.IL2046.severity = error # RequiresUnreferencedCodeMismatch
+dotnet_diagnostic.IL2072.severity = error # UnrecognizedReflectionPattern
+dotnet_diagnostic.IL2091.severity = error # GenericArgumentRequiresUnreferencedCode
+dotnet_diagnostic.IL3050.severity = error # RequiresDynamicCode
+dotnet_diagnostic.IL3051.severity = error # RequiresDynamicCodeMismatch
+dotnet_diagnostic.IL3052.severity = error # MethodRequiresDynamicCode
+dotnet_diagnostic.IL3053.severity = error # PropertyRequiresDynamicCode
+dotnet_diagnostic.IL3054.severity = error # EventRequiresDynamicCode
+dotnet_diagnostic.IL3055.severity = error # PInvokeRequiresDynamicCode
+dotnet_diagnostic.IL3056.severity = error # GenericRequiresDynamicCode
+
+# Unit test conventions (allow underscores in test method names)
+[tests/**/*.cs]
+dotnet_diagnostic.CA1707.severity = none
+
+[*.{json,yml,yaml}]
+indent_size = 2
+
+[*.md]
+trim_trailing_whitespace = false

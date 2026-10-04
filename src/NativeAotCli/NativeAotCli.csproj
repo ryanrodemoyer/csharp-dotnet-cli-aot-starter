@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <AssemblyName>aotcli</AssemblyName>
+    <RootNamespace>NativeAotCli</RootNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="ConsoleAppFramework" />
+    <PackageReference Include="ConsoleAppFramework.CliSchema" />
+    <PackageReference Include="Spectre.Console" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <InternalsVisibleTo Include="NativeAotCli.Tests" />
+  </ItemGroup>
+
+</Project>
