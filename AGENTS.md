@@ -145,6 +145,8 @@ On error:
 }
 ```
 
+This includes errors raised before a command runs (unparseable values, unknown flags, unknown commands). Every error exits with a non-zero code, including an unknown command.
+
 ---
 
 ## 5. Build, Test, and Verification Commands

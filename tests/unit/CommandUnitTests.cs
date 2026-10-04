@@ -66,4 +66,33 @@ public class CommandUnitTests
         Assert.Equal("something went wrong", result.Error);
         Assert.Equal(42, result.ExitCode);
     }
+
+    [Theory]
+    [InlineData(new[] { "greet", "--json" }, true)]
+    [InlineData(new[] { "greet", "-j" }, true)]
+    [InlineData(new[] { "greet", "--name", "x" }, false)]
+    [InlineData(new[] { "greet", "--", "--json" }, false)]
+    public void CliArguments_IsJsonMode_DetectsJsonFlag(string[] args, bool expected)
+    {
+        Assert.Equal(expected, CliArguments.IsJsonMode(args));
+    }
+
+    [Theory]
+    [InlineData(new[] { "nope" }, "nope")]
+    [InlineData(new[] { "--bogus" }, "--bogus")]
+    [InlineData(new[] { "greet", "--name", "x" }, null)]
+    [InlineData(new string[0], null)]
+    [InlineData(new[] { "--help" }, null)]
+    [InlineData(new[] { "--version" }, null)]
+    [InlineData(new[] { "--help", "--json" }, null)]
+    public void CliArguments_FindUnknownCommand_FlagsOnlyUnregisteredCommands(string[] args, string? expected)
+    {
+        Assert.Equal(expected, CliArguments.FindUnknownCommand(args, ["greet", "info", "schema"]));
+    }
+
+    [Fact]
+    public void CliArguments_FindUnknownCommand_IgnoresWhenRootCommandRegistered()
+    {
+        Assert.Null(CliArguments.FindUnknownCommand(["anything"], ["", "greet"]));
+    }
 }

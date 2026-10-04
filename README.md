@@ -208,6 +208,10 @@ If validation fails:
 }
 ```
 
+Argument errors caught by the framework (unparseable values, unknown flags) and unknown commands return the same error envelope in `--json` mode, and always exit with a non-zero code.
+
+`schema` prints raw JSON by default so it can be saved directly as a tool definition file; add `--json` to wrap it in the envelope.
+
 ---
 
 ## 🛠️ Adding a New Command

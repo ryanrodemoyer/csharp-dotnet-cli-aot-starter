@@ -16,6 +16,7 @@ namespace Cli.Common;
 [JsonSerializable(typeof(CliResult<SystemInfoData>))]
 [JsonSerializable(typeof(CliResult<List<OpenAiTool>>))]
 [JsonSerializable(typeof(CliResult<string>))]
+[JsonSerializable(typeof(CliResult<CommandHelpDefinition[]>))]
 [JsonSerializable(typeof(GreetingData))]
 [JsonSerializable(typeof(SystemInfoData))]
 [JsonSerializable(typeof(List<OpenAiTool>))]
