@@ -5,7 +5,7 @@ set -e
 # Supports Linux and macOS (x64, arm64)
 
 APP_NAME="cli"
-REPO="${REPO:-"username/native_aot_template"}"
+REPO="${REPO:-"ryanrodemoyer/csharp-dotnet-cli-aot-starter"}"
 VERSION="${VERSION:-"latest"}"
 INSTALL_DIR="${INSTALL_DIR:-"$HOME/.local/bin"}"
 

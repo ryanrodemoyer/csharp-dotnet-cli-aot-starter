@@ -266,7 +266,7 @@ Install via POSIX shell script to `~/.local/bin/cli`:
 
 Or remotely from your release repository:
 ```bash
-curl -fsSL https://raw.githubusercontent.com/username/native_aot_template/main/scripts/install.sh | bash
+curl -fsSL https://raw.githubusercontent.com/ryanrodemoyer/csharp-dotnet-cli-aot-starter/main/scripts/install.sh | bash
 ```
 
 ### Windows (PowerShell)
@@ -278,7 +278,7 @@ Install via PowerShell script to `$HOME\.local\bin\cli.exe`:
 
 Or remotely:
 ```powershell
-irm https://raw.githubusercontent.com/username/native_aot_template/main/scripts/install.ps1 | iex
+irm https://raw.githubusercontent.com/ryanrodemoyer/csharp-dotnet-cli-aot-starter/main/scripts/install.ps1 | iex
 ```
 
 ---

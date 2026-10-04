@@ -4,7 +4,7 @@
 [CmdletBinding()]
 param(
     [string]$Version = "latest",
-    [string]$Repo = "username/native_aot_template",
+    [string]$Repo = "ryanrodemoyer/csharp-dotnet-cli-aot-starter",
     [string]$InstallDir = "$HOME\.local\bin"
 )
 
