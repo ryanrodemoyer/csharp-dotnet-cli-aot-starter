@@ -35,7 +35,7 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 ├── global.json                  # Pinned .NET 10 SDK with feature rollForward
 ├── Directory.Build.props        # Solution-wide build, AOT flags, and compiler warnings
 ├── Directory.Packages.props     # Central Package Management (CPM)
-├── NativeAotCliTemplate.sln     # Root solution file
+├── NativeAotCliTemplate.slnx    # Modern XML solution file
 ├── Makefile                     # Developer convenience shortcuts
 ├── AGENTS.md                    # Instructions for AI coding agents & LLMs
 ├── .cursorrules                 # AI coding rules for Cursor IDE

@@ -9,7 +9,7 @@ $ErrorActionPreference = "Stop"
 
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent $ScriptDir
-$SlnPath = Join-Path $RepoRoot "NativeAotCliTemplate.sln"
+$SlnPath = Join-Path $RepoRoot "NativeAotCliTemplate.slnx"
 $CsprojPath = Join-Path $RepoRoot "src\NativeAotCli\NativeAotCli.csproj"
 
 Write-Host "==> Building solution ($Configuration)..." -ForegroundColor Cyan

@@ -7,10 +7,10 @@ SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
 
 echo "==> Building solution in Debug mode..."
-dotnet build "$REPO_ROOT/NativeAotCliTemplate.sln" -c Debug
+dotnet build "$REPO_ROOT/NativeAotCliTemplate.slnx" -c Debug
 
 echo "==> Running tests..."
-dotnet test "$REPO_ROOT/NativeAotCliTemplate.sln" -c Debug --no-build
+dotnet test "$REPO_ROOT/NativeAotCliTemplate.slnx" -c Debug --no-build
 
 # Detect current platform RID
 OS_NAME="$(uname -s)"
