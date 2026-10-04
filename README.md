@@ -13,7 +13,7 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 - **🤖 Agent & LLM Development Ready**:
   - Global `--json` mode emitting a standardized `CliResult<T>` envelope for seamless machine parsing.
   - Built-in `schema --format openai` exporting tool definitions for OpenAI, Claude, Gemini, and MCP runtimes.
-  - Dedicated [AGENTS.md](AGENTS.md) guide, `.cursorrules`, and Copilot instructions.
+  - Dedicated [AGENTS.md](AGENTS.md) guide and Copilot instructions.
 - **🎨 Dual-Mode Output**:
   - **Interactive Human Mode**: Rich terminal styling, rounded borders, tables, and markup powered by [Spectre.Console](https://spectreconsole.net/).
   - **Agent / Script Mode**: Clean, deterministic JSON output on standard output with exit code tracking.
@@ -40,7 +40,6 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 ├── NativeAotCliTemplate.slnx    # Modern XML solution file
 ├── Makefile                     # Developer convenience shortcuts
 ├── AGENTS.md                    # Instructions for AI coding agents & LLMs
-├── .cursorrules                 # AI coding rules for Cursor IDE
 ├── .gitlab-ci.yml               # GitLab CI matrix AOT build & release pipeline
 ├── .github/
 │   ├── copilot-instructions.md  # Copilot Workspace rules
