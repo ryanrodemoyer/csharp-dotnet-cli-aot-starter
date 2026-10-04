@@ -2,8 +2,8 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <AssemblyName>aotcli</AssemblyName>
-    <RootNamespace>NativeAotCli</RootNamespace>
+    <AssemblyName>cli</AssemblyName>
+    <RootNamespace>Cli</RootNamespace>
   </PropertyGroup>
 
   <ItemGroup>
@@ -13,7 +13,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <InternalsVisibleTo Include="NativeAotCli.Tests" />
+    <InternalsVisibleTo Include="unit" />
+    <InternalsVisibleTo Include="integration" />
   </ItemGroup>
 
 </Project>

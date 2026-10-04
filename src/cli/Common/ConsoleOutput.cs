@@ -2,7 +2,7 @@ using System.Text.Json;
 using System.Text.Json.Serialization.Metadata;
 using Spectre.Console;
 
-namespace NativeAotCli.Common;
+namespace Cli.Common;
 
 /// <summary>
 /// Output abstraction supporting rich human UI (via Spectre.Console) and clean JSON for AI agents.

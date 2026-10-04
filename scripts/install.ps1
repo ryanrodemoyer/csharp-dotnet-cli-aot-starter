@@ -10,7 +10,7 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$AppName = "aotcli"
+$AppName = "cli"
 $ExeName = "$AppName.exe"
 
 Write-Host "==========================================" -ForegroundColor Cyan
@@ -41,7 +41,7 @@ $TargetExe = Join-Path $InstallDir $ExeName
 # 2. Check if local source build is available
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent $ScriptDir
-$CsprojPath = Join-Path $RepoRoot "src\NativeAotCli\NativeAotCli.csproj"
+$CsprojPath = Join-Path $RepoRoot "src\cli\cli.csproj"
 
 if ((Test-Path $CsprojPath) -and (Get-Command dotnet -ErrorAction SilentlyContinue)) {
     Write-Host "Found local project source. Building Native AOT binary locally for $Rid..." -ForegroundColor Yellow

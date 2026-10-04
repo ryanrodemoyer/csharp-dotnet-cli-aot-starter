@@ -1,8 +1,8 @@
 using System.Text.Json.Serialization;
+using Cli.Models;
 using ConsoleAppFramework;
-using NativeAotCli.Models;
 
-namespace NativeAotCli.Common;
+namespace Cli.Common;
 
 /// <summary>
 /// Source-generated JSON serializer context for 100% Native AOT compatibility.

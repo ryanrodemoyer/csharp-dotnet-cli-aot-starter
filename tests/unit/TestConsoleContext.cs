@@ -1,7 +1,7 @@
-using NativeAotCli.Common;
+using Cli.Common;
 using Spectre.Console;
 
-namespace NativeAotCli.Tests;
+namespace Unit;
 
 /// <summary>
 /// Scoped test fixture that redirects ConsoleOutput to an in-memory StringWriter.

@@ -1,5 +1,5 @@
+using Cli.Commands;
 using ConsoleAppFramework;
-using NativeAotCli.Commands;
 
 var app = ConsoleApp.Create();
 

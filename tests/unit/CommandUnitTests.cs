@@ -1,9 +1,10 @@
-using NativeAotCli.Commands;
+using Cli.Commands;
+using Cli.Common;
 using Xunit;
 
-namespace NativeAotCli.Tests;
+namespace Unit;
 
-public class CommandTests
+public class CommandUnitTests
 {
     [Fact]
     public void GreetCommand_WithDefaults_ReturnsSuccess()
@@ -44,5 +45,25 @@ public class CommandTests
         var exitCode = InfoCommand.Execute();
         Assert.Equal(0, exitCode);
         Assert.Contains("Diagnostics", ctx.Output, StringComparison.Ordinal);
+    }
+
+    [Fact]
+    public void CliResult_OkFactoryMethod_PopulatesFields()
+    {
+        var result = CliResult.Ok("test-payload");
+        Assert.True(result.Success);
+        Assert.Equal("test-payload", result.Data);
+        Assert.Null(result.Error);
+        Assert.Equal(0, result.ExitCode);
+    }
+
+    [Fact]
+    public void CliResult_FailFactoryMethod_PopulatesErrorAndExitCode()
+    {
+        var result = CliResult.Fail<string>("something went wrong", 42);
+        Assert.False(result.Success);
+        Assert.Null(result.Data);
+        Assert.Equal("something went wrong", result.Error);
+        Assert.Equal(42, result.ExitCode);
     }
 }

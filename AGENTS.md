@@ -31,7 +31,7 @@ Native AOT compiles C# directly into native machine code. JIT is disabled. Dynam
 
 ### ✅ Required Patterns:
 1. **Source Generated JSON**:
-   - Whenever you create a new model or result DTO, register it in `src/NativeAotCli/Common/AppJsonContext.cs`:
+   - Whenever you create a new model or result DTO, register it in `src/cli/Common/AppJsonContext.cs`:
      ```csharp
      [JsonSerializable(typeof(CliResult<MyNewModel>))]
      [JsonSerializable(typeof(MyNewModel))]
@@ -54,9 +54,9 @@ Native AOT compiles C# directly into native machine code. JIT is disabled. Dynam
 
 ## 3. How to Add a New Command
 
-1. **Create the Command class** in `src/NativeAotCli/Commands/`:
+1. **Create the Command class** in `src/cli/Commands/`:
    ```csharp
-   namespace NativeAotCli.Commands;
+   namespace Cli.Commands;
 
    public static class MyFeatureCommand
    {
@@ -101,7 +101,7 @@ Native AOT compiles C# directly into native machine code. JIT is disabled. Dynam
    [JsonSerializable(typeof(MyFeatureData))]
    ```
 
-4. **Add Unit Tests** in `tests/NativeAotCli.Tests/`:
+4. **Add Unit Tests** in `tests/unit/`:
    - Use `using var ctx = new TestConsoleContext();` to safely assert both human markup and JSON outputs without touching global process state.
 
 ---
@@ -113,14 +113,14 @@ Agents can discover available commands dynamically and invoke them as structured
 ### Step 1: Discover Tools
 Run:
 ```bash
-aotcli schema --format openai
+cli schema --format openai
 ```
 This prints the complete OpenAI function-calling schema for all commands in the CLI.
 
 ### Step 2: Call Commands Programmatically
 Always pass `--json` (or `-j`) when running commands from an agent:
 ```bash
-aotcli greet --name "Agent" --json
+cli greet --name "Agent" --json
 ```
 
 Output is guaranteed to be valid JSON matching the envelope:
@@ -151,5 +151,5 @@ On error:
 
 - **Build**: `dotnet build NativeAotCliTemplate.slnx -c Debug`
 - **Test**: `dotnet test NativeAotCliTemplate.slnx -c Debug`
-- **Native AOT Publish**: `dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r <RID>`
-- **Export Schema**: `dotnet run --project src/NativeAotCli -- schema --format openai`
+- **Native AOT Publish**: `dotnet publish src/cli/cli.csproj -c Release -r <RID>`
+- **Export Schema**: `dotnet run --project src/cli -- schema --format openai`

@@ -1,4 +1,4 @@
-namespace NativeAotCli.Common;
+namespace Cli.Common;
 
 /// <summary>
 /// Static factory methods for creating standardized CLI results.

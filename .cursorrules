@@ -6,5 +6,5 @@
 - Serialization: ALWAYS use System.Text.Json Source Generation via AppJsonContext. NEVER use reflection JsonSerializer without JsonTypeInfo.
 - Central Package Management: Specify package versions exclusively in Directory.Packages.props.
 - Output: Support dual-mode output via ConsoleOutput (Spectre.Console for human UI, pure JSON for --json / agent mode).
-- Testing: Write unit tests in tests/NativeAotCli.Tests using TestConsoleContext.
+- Testing: Write unit tests in tests/unit and integration tests in tests/integration using TestConsoleContext.
 - Always run `dotnet test` and ensure 0 warnings / 0 errors before finishing code edits.

@@ -8,7 +8,7 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 
 ## ⚡ Features at a Glance
 
-- **🚀 .NET 10 Native AOT**: Zero-runtime JIT overhead, ~10MB standalone native executable, microsecond startup.
+- **🚀 .NET 10 Native AOT**: Zero-runtime JIT overhead, ~3.8MB standalone native executable, microsecond startup.
 - **🛡️ Strict AOT & Trimmer Analyzers**: Preconfigured with `PublishAot`, `IsAotCompatible`, `EnableTrimAnalyzer`, `EnableAotAnalyzer`, and warnings escalated to errors (`IL2026`, `IL3050`, `CA1000`, etc.).
 - **🤖 Agent & LLM Development Ready**:
   - Global `--json` mode emitting a standardized `CliResult<T>` envelope for seamless machine parsing.
@@ -22,7 +22,9 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
   - **GitHub Actions**: Automated test and native release packaging for Linux (`x64`, `arm64`), macOS (`osx-arm64`, `osx-x64`), and Windows (`win-x64`, `win-arm64`).
   - **GitLab CI**: Production-ready `.gitlab-ci.yml` pipeline with Alpine musl and glibc Native AOT matrix jobs.
 - **📥 One-Line Installers**: POSIX `scripts/install.sh` and Windows PowerShell `scripts/install.ps1`.
-- **🧪 Zero-Leak Test Suite**: xUnit test suite featuring `TestConsoleContext` for thread-safe CLI output assertions.
+- **🧪 Structured Unit & Integration Test Suites**:
+  - `tests/unit/`: Fast unit tests for commands, parameter validation, and result models.
+  - `tests/integration/`: End-to-end JSON contract verification and schema exporter testing with `TestConsoleContext`.
 
 ---
 
@@ -51,7 +53,8 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 │   ├── build.sh                 # Local Unix build and AOT publish script
 │   └── build.ps1                # Local Windows build and AOT publish script
 ├── src/
-│   └── NativeAotCli/
+│   └── cli/                     # Main CLI executable project
+│       ├── cli.csproj
 │       ├── Program.cs           # ConsoleAppFramework command routing
 │       ├── Commands/            # Vertical slice command implementations
 │       │   ├── GreetCommand.cs  # Validation, options, and dual-mode rendering
@@ -64,11 +67,17 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 │       └── Models/
 │           └── Models.cs        # Domain models & OpenAI tool schema types
 └── tests/
-    └── NativeAotCli.Tests/
-        ├── AssemblyInfo.cs      # Sequential test behavior
-        ├── TestConsoleContext.cs# Output redirection test fixture
-        ├── CommandTests.cs      # Unit tests for CLI commands
-        └── JsonOutputTests.cs   # JSON serialization & schema verification
+    ├── unit/                    # Unit tests project
+    │   ├── unit.csproj
+    │   ├── AssemblyInfo.cs      # Sequential test behavior
+    │   ├── TestConsoleContext.cs# Output redirection test fixture
+    │   └── CommandUnitTests.cs  # Unit tests for CLI commands and validation
+    └── integration/             # Integration tests project
+        ├── integration.csproj
+        ├── AssemblyInfo.cs
+        ├── TestConsoleContext.cs
+        ├── JsonOutputIntegrationTests.cs # JSON serialization verification
+        └── SchemaIntegrationTests.cs     # AI schema generation verification
 ```
 
 ---
@@ -86,19 +95,19 @@ Engineered for sub-10ms startup times, cross-platform distribution, strict compi
 
 ```bash
 # Display help
-dotnet run --project src/NativeAotCli -- --help
+dotnet run --project src/cli -- --help
 
 # Run greet command
-dotnet run --project src/NativeAotCli -- greet --name "Developer" --count 2
+dotnet run --project src/cli -- greet --name "Developer" --count 2
 
 # Inspect runtime diagnostics
-dotnet run --project src/NativeAotCli -- info
+dotnet run --project src/cli -- info
 ```
 
 ### 2. Run Tests
 
 ```bash
-dotnet test
+dotnet test NativeAotCliTemplate.slnx
 ```
 
 ### 3. Compile Native AOT Standalone Binary
@@ -111,12 +120,12 @@ make aot
 ./scripts/build.sh
 
 # Or with dotnet CLI
-dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r osx-arm64 -o publish/osx-arm64
+dotnet publish src/cli/cli.csproj -c Release -r osx-arm64 -o publish/osx-arm64
 ```
 
 Verify execution:
 ```bash
-./publish/osx-arm64/aotcli info
+./publish/osx-arm64/cli info
 ```
 
 ---
@@ -128,7 +137,7 @@ This template is purpose-built to act as a set of executable tools for autonomou
 ### 1. Discover Available Tools (OpenAI Function Calling Format)
 
 ```bash
-aotcli schema --format openai
+cli schema --format openai
 ```
 
 **Output:**
@@ -171,7 +180,7 @@ aotcli schema --format openai
 Append `--json` (or `-j`) to any command:
 
 ```bash
-aotcli greet --name "Agent 007" --shout --json
+cli greet --name "Agent 007" --shout --json
 ```
 
 **Response:**
@@ -204,9 +213,9 @@ If validation fails:
 
 ## 🛠️ Adding a New Command
 
-1. **Create the command method** in `src/NativeAotCli/Commands/`:
+1. **Create the command method** in `src/cli/Commands/`:
    ```csharp
-   namespace NativeAotCli.Commands;
+   namespace Cli.Commands;
 
    public static class PingCommand
    {
@@ -239,9 +248,9 @@ If validation fails:
    [JsonSerializable(typeof(PingData))]
    ```
 
-4. **Verify compile & test**:
+4. **Add tests** in `tests/unit/` and verify:
    ```bash
-   dotnet test
+   dotnet test NativeAotCliTemplate.slnx
    ```
 
 ---
@@ -250,7 +259,7 @@ If validation fails:
 
 ### Unix (Linux & macOS)
 
-Install via POSIX shell script to `~/.local/bin/aotcli`:
+Install via POSIX shell script to `~/.local/bin/cli`:
 ```bash
 ./scripts/install.sh
 ```
@@ -262,7 +271,7 @@ curl -fsSL https://raw.githubusercontent.com/username/native_aot_template/main/s
 
 ### Windows (PowerShell)
 
-Install via PowerShell script to `$HOME\.local\bin\aotcli.exe`:
+Install via PowerShell script to `$HOME\.local\bin\cli.exe`:
 ```powershell
 .\scripts\install.ps1
 ```
@@ -296,7 +305,7 @@ irm https://raw.githubusercontent.com/username/native_aot_template/main/scripts/
 | Command | Description |
 | :--- | :--- |
 | `make build` | Builds solution in Debug configuration |
-| `make test` | Executes all xUnit unit & integration tests |
+| `make test` | Executes unit & integration test suites |
 | `make aot` | Publishes optimized Native AOT binary for host OS |
 | `make schema` | Dumps CLI schema in JSON format |
 | `make schema-openai` | Dumps OpenAI / Agent function calling schema |

@@ -5,9 +5,10 @@
     <Platform Name="x86" />
   </Configurations>
   <Folder Name="/src/">
-    <Project Path="src/NativeAotCli/NativeAotCli.csproj" />
+    <Project Path="src/cli/cli.csproj" />
   </Folder>
   <Folder Name="/tests/">
-    <Project Path="tests/NativeAotCli.Tests/NativeAotCli.Tests.csproj" />
+    <Project Path="tests/unit/unit.csproj" />
+    <Project Path="tests/integration/integration.csproj" />
   </Folder>
 </Solution>

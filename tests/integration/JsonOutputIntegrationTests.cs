@@ -1,12 +1,11 @@
 using System.Text.Json;
-using NativeAotCli.Commands;
-using NativeAotCli.Common;
-using NativeAotCli.Models;
+using Cli.Commands;
+using Cli.Common;
 using Xunit;
 
-namespace NativeAotCli.Tests;
+namespace Integration;
 
-public class JsonOutputTests
+public class JsonOutputIntegrationTests
 {
     [Fact]
     public void GreetCommand_InJsonMode_ReturnsValidStructuredJson()
@@ -59,26 +58,5 @@ public class JsonOutputTests
         Assert.NotEmpty(parsed.Data.DotNetVersion);
         Assert.NotEmpty(parsed.Data.OsDescription);
         Assert.True(parsed.Data.ProcessorCount > 0);
-    }
-
-    [Theory]
-    [InlineData("json")]
-    [InlineData("openai")]
-    [InlineData("markdown")]
-    public void SchemaCommand_SupportedFormats_ExecuteSuccessfully(string format)
-    {
-        using var ctx = new TestConsoleContext();
-        var exitCode = SchemaCommand.Execute([], format);
-        Assert.Equal(0, exitCode);
-        Assert.NotEmpty(ctx.Output);
-    }
-
-    [Fact]
-    public void SchemaCommand_InvalidFormat_ReturnsFailure()
-    {
-        using var ctx = new TestConsoleContext();
-        var exitCode = SchemaCommand.Execute([], "unknown_format");
-        Assert.Equal(1, exitCode);
-        Assert.Contains("Unsupported format 'unknown_format'", ctx.Output, StringComparison.Ordinal);
     }
 }

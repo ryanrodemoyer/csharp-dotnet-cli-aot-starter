@@ -1,4 +1,4 @@
-namespace NativeAotCli.Models;
+namespace Cli.Models;
 
 /// <summary>
 /// Structured result for greet command.

@@ -3,11 +3,11 @@ using System.Globalization;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
-using NativeAotCli.Common;
-using NativeAotCli.Models;
+using Cli.Common;
+using Cli.Models;
 using Spectre.Console;
 
-namespace NativeAotCli.Commands;
+namespace Cli.Commands;
 
 /// <summary>
 /// Handles the 'info' command.
@@ -22,7 +22,7 @@ public static class InfoCommand
     public static int Execute(bool json = false)
     {
         var asm = typeof(InfoCommand).Assembly;
-        var appName = asm.GetName().Name ?? "aotcli";
+        var appName = asm.GetName().Name ?? "cli";
         var appVersion = asm.GetCustomAttribute<AssemblyInformationalVersionAttribute>()?.InformationalVersion
                          ?? asm.GetName().Version?.ToString()
                          ?? "0.1.0";

@@ -10,7 +10,7 @@ $ErrorActionPreference = "Stop"
 $ScriptDir = Split-Path -Parent $MyInvocation.MyCommand.Path
 $RepoRoot = Split-Path -Parent $ScriptDir
 $SlnPath = Join-Path $RepoRoot "NativeAotCliTemplate.slnx"
-$CsprojPath = Join-Path $RepoRoot "src\NativeAotCli\NativeAotCli.csproj"
+$CsprojPath = Join-Path $RepoRoot "src\cli\cli.csproj"
 
 Write-Host "==> Building solution ($Configuration)..." -ForegroundColor Cyan
 dotnet build $SlnPath -c $Configuration
@@ -34,7 +34,7 @@ $PublishDir = Join-Path $RepoRoot "publish\$Rid"
 Write-Host "==> Publishing Native AOT binary for $Rid..." -ForegroundColor Yellow
 dotnet publish $CsprojPath -c $Configuration -r $Rid -o $PublishDir
 
-$ExePath = Join-Path $PublishDir "aotcli.exe"
+$ExePath = Join-Path $PublishDir "cli.exe"
 if (Test-Path $ExePath) {
     Write-Host "==> Publish successful! Binary size:" -ForegroundColor Green
     Get-Item $ExePath | Select-Object Name, Length, LastWriteTime | Format-Table -AutoSize

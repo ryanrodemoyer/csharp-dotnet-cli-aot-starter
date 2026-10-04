@@ -45,4 +45,4 @@ jobs:
 
       - name: Smoke test Native AOT compilation
         run: |
-          dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release
+          dotnet publish src/cli/cli.csproj -c Release

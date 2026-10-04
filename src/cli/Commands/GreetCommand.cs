@@ -1,8 +1,8 @@
-using NativeAotCli.Common;
-using NativeAotCli.Models;
+using Cli.Common;
+using Cli.Models;
 using Spectre.Console;
 
-namespace NativeAotCli.Commands;
+namespace Cli.Commands;
 
 /// <summary>
 /// Handles the 'greet' command.

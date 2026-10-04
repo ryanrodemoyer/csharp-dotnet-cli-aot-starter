@@ -1,9 +1,8 @@
-using System.Text.Json;
+using Cli.Common;
+using Cli.Models;
 using ConsoleAppFramework;
-using NativeAotCli.Common;
-using NativeAotCli.Models;
 
-namespace NativeAotCli.Commands;
+namespace Cli.Commands;
 
 /// <summary>
 /// Handles the 'schema' command.

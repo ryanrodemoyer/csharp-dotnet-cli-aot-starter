@@ -49,30 +49,30 @@ jobs:
 
       - name: Publish Native AOT binary
         run: |
-          dotnet publish src/NativeAotCli/NativeAotCli.csproj -c Release -r ${{ matrix.target.rid }} -o ./publish
+          dotnet publish src/cli/cli.csproj -c Release -r ${{ matrix.target.rid }} -o ./publish
 
       - name: Package Unix Binary (.tar.gz)
         if: matrix.target.archive == 'tar.gz'
         run: |
           cd ./publish
-          tar -czf ../aotcli-${{ matrix.target.rid }}.tar.gz aotcli
+          tar -czf ../cli-${{ matrix.target.rid }}.tar.gz cli
           cd ..
-          shasum -a 256 aotcli-${{ matrix.target.rid }}.tar.gz > aotcli-${{ matrix.target.rid }}.tar.gz.sha256
+          shasum -a 256 cli-${{ matrix.target.rid }}.tar.gz > cli-${{ matrix.target.rid }}.tar.gz.sha256
 
       - name: Package Windows Binary (.zip)
         if: matrix.target.archive == 'zip'
         shell: pwsh
         run: |
-          Compress-Archive -Path ./publish/aotcli.exe -DestinationPath aotcli-${{ matrix.target.rid }}.zip
-          $hash = (Get-FileHash aotcli-${{ matrix.target.rid }}.zip -Algorithm SHA256).Hash.ToLower()
-          "$hash  aotcli-${{ matrix.target.rid }}.zip" | Out-File -FilePath aotcli-${{ matrix.target.rid }}.zip.sha256 -Encoding ascii
+          Compress-Archive -Path ./publish/cli.exe -DestinationPath cli-${{ matrix.target.rid }}.zip
+          $hash = (Get-FileHash cli-${{ matrix.target.rid }}.zip -Algorithm SHA256).Hash.ToLower()
+          "$hash  cli-${{ matrix.target.rid }}.zip" | Out-File -FilePath cli-${{ matrix.target.rid }}.zip.sha256 -Encoding ascii
 
       - name: Upload Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: aotcli-${{ matrix.target.rid }}
+          name: cli-${{ matrix.target.rid }}
           path: |
-            aotcli-${{ matrix.target.rid }}.*
+            cli-${{ matrix.target.rid }}.*
 
   publish-release:
     name: Create GitHub Release

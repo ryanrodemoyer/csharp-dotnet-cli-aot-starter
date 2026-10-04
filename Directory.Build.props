@@ -16,13 +16,13 @@
     <!-- Package & Assembly Info -->
     <Authors>Native AOT Template Contributors</Authors>
     <Company>Template</Company>
-    <Product>NativeAotCli</Product>
+    <Product>cli</Product>
     <Version>0.1.0</Version>
     <RepositoryType>git</RepositoryType>
   </PropertyGroup>
 
   <!-- Native AOT and Trimming settings for non-test projects -->
-  <PropertyGroup Condition="!$(MSBuildProjectName.EndsWith('Tests'))">
+  <PropertyGroup Condition="!$(MSBuildProjectDirectory.Contains('tests'))">
     <PublishAot>true</PublishAot>
     <IsAotCompatible>true</IsAotCompatible>
     <EnableAotAnalyzer>true</EnableAotAnalyzer>

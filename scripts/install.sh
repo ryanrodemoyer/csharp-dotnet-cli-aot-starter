@@ -4,7 +4,7 @@ set -e
 # Native AOT CLI Template - Cross-Platform Unix Installer
 # Supports Linux and macOS (x64, arm64)
 
-APP_NAME="aotcli"
+APP_NAME="cli"
 REPO="${REPO:-"username/native_aot_template"}"
 VERSION="${VERSION:-"latest"}"
 INSTALL_DIR="${INSTALL_DIR:-"$HOME/.local/bin"}"
@@ -53,9 +53,9 @@ mkdir -p "$INSTALL_DIR"
 SCRIPT_DIR="$(cd "$(dirname "$0")" 2>/dev/null && pwd || echo "")"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." 2>/dev/null && pwd || echo "")"
 
-if [ -f "$REPO_ROOT/src/NativeAotCli/NativeAotCli.csproj" ] && command -v dotnet >/dev/null 2>&1; then
+if [ -f "$REPO_ROOT/src/cli/cli.csproj" ] && command -v dotnet >/dev/null 2>&1; then
     echo "Found local project source. Building Native AOT binary locally for $RID..."
-    dotnet publish "$REPO_ROOT/src/NativeAotCli/NativeAotCli.csproj" -c Release -r "$RID" -o "$REPO_ROOT/publish/$RID" --nologo
+    dotnet publish "$REPO_ROOT/src/cli/cli.csproj" -c Release -r "$RID" -o "$REPO_ROOT/publish/$RID" --nologo
     cp "$REPO_ROOT/publish/$RID/$APP_NAME" "$INSTALL_DIR/$APP_NAME"
 else
     # Remote download from releases

@@ -32,9 +32,9 @@ RID="${OS}-${ARCH}"
 OUTPUT_DIR="$REPO_ROOT/publish/$RID"
 
 echo "==> Publishing Native AOT binary for $RID..."
-dotnet publish "$REPO_ROOT/src/NativeAotCli/NativeAotCli.csproj" -c Release -r "$RID" -o "$OUTPUT_DIR"
+dotnet publish "$REPO_ROOT/src/cli/cli.csproj" -c Release -r "$RID" -o "$OUTPUT_DIR"
 
-BINARY="$OUTPUT_DIR/aotcli"
+BINARY="$OUTPUT_DIR/cli"
 if [ -f "$BINARY" ]; then
     echo "==> Publish successful!"
     ls -lh "$BINARY"
